@@ -1,0 +1,85 @@
+import java.util.*;
+import java.util.Scanner;
+
+public class ShiFuMi{
+
+	public static Scanner clavier=new Scanner(System.in);
+
+	public static void main(String[]args){
+		System.out.println("Salut ! Bienvenue sur notre ShiFuMi !");
+		System.out.println("Tappez 0 pour Pierre, 1 pour Ciseaux et 2 pour Feuille");
+		int i = 0;
+		while ( i < 10 ){
+			int joueur = jouerJoueur();
+			int machine = jouerOrdi();
+			System.out.println( "La machine a choisie "+machine );
+			i++;
+			int gagnant = gagnant(joueur,machine);
+			afficheGagnant(gagnant);
+		}
+	}
+	
+	public static int jouerJoueur(){
+		System.out.println("Entrez votre choix entre 0, 1 et 2. ");
+		int choixjoueur = clavier.nextInt();
+			while( ( choixjoueur < 0 || choixjoueur > 2 )) {  
+				System.out.println("Entrez votre choix entre 0, 1 et 2. ");
+				choixjoueur = clavier.nextInt();
+			
+			}
+		return choixjoueur ;
+	}
+	
+	public static int jouerOrdi(){
+		int choixordi = (int)(Math.random()*3);
+		return choixordi ;
+	} //0 pour Pierre, 1 pour Ciseaux et 2 pour Feuille
+	
+	public static int gagnant(int choixdujoueur, int choixdelordi ){ //true pour l'ordi false pour le joueur 
+		int resultat = 0;
+		if ( choixdujoueur == choixdelordi ){ //if inutile ? 
+		resultat = 0;
+		}
+		if ( choixdujoueur == 0) { 
+			if ( choixdelordi == 1 ){ // ordi perd 
+			resultat = 1 ;
+			}
+			if ( choixdelordi == 2){ // ordi gagne
+			resultat = 2 ;
+			}
+		}
+		if ( choixdujoueur == 1){
+			if ( choixdelordi == 0){ // ordi gagne
+			resultat = 2 ;
+			}
+			if ( choixdelordi == 2){ // ordi perd
+			resultat = 1 ;
+			}
+		}
+		if ( choixdujoueur == 2){
+			if ( choixdelordi == 0){ // ordi gagne
+			resultat = 2 ;
+			}
+			if ( choixdelordi == 1){ // ordi perd
+			resultat = 1 ;
+			}
+		}
+	return resultat;
+	}
+	public static void afficheGagnant(int gagnant){
+		if ( gagnant == 0 ){
+			System.out.println(" Matche nul ");
+		} 
+		if ( gagnant == 1 ){
+			System.out.println(" Le joueur gagne la manche ");
+		} 
+		if ( gagnant == 2 ){
+			System.out.println(" L'ordinateur gagne la manche ");
+		}
+	}
+	
+
+}
+
+	
+
