@@ -1,0 +1,99 @@
+import java.util.*;
+import java.util.Scanner;
+
+public class Morpion{
+    public static Scanner clavier = new Scanner (System.in);
+    public static char [] [] tableau(){
+		//crée un tableau 2D 3x3 et le remplit de '-'
+        char [] [] t = new char [3] [3] ;
+        for ( int i = 0 ; i < 3 ; i++ ){
+            for ( int j = 0 ; j < 3 ; j++ ){
+                t [i] [j] = '-';
+            }
+        }
+    return t;
+    }
+    public static void affiche(char [] [] t){
+		//affiche un tableau 2d 3x3
+        for ( int i = 0 ; i < 3 ; i++ ){
+            System.out.println();
+            for ( int j = 0 ; j < 3 ; j++ ){
+                System.out.print(t [i] [j]);
+            }
+        }
+		System.out.println();
+    }
+	public static void main(String[]args){
+		System.out.println(" Salut, bienvenue sur notre jeu du morpion ! :D ");	//Dis bonjour a l'utilisateur 
+		char [][] tablal = tableau();
+		affiche(tablal); //Affiche le tableau après chaque coup si possible =)
+		jouerJoueur(tablal);
+		affiche(tablal);
+	}
+
+	public static char [][] jouerJoueur(char t [][])   {
+		System.out.println("Entrez colonne entre 0 1 2. ");
+		int colonne = clavier.nextInt();
+		System.out.println("Entrez ligne entre 0 1 2. ");
+		int ligne = clavier.nextInt();
+		while( ( ligne < 0 || ligne > 2 || colonne < 0 || colonne > 3 ) &&  estPlein(t,colonne,ligne )){ //faudrait voir si la case est vide ou pas. 
+			System.out.println("Entrez colonne entre 0 1 et 2. ");
+			colonne = clavier.nextInt();
+			System.out.println("Entrez ligne entre 0 1 2. ");
+			ligne = clavier.nextInt();
+		}
+		t [colonne] [ligne] = 'O';
+			return t ;
+	}
+	public static boolean estPlein(char t [][] , int colonne, int ligne){
+		if ( t [colonne][ligne] != '-' ){
+			return false;
+		}
+		else return true;
+	}
+	
+	public static  char [] remplirTableau( char [][] t , int ligne ){
+		char []resultat = new char [t.length]; 
+		for ( int i = 0 ; i < t.length ; i++ ){
+			resultat[i] = t[ligne][i];
+		}
+		return resultat;
+	}
+	public static char [][] jouerOrdi(char t [][]) {
+		int a = 0;
+		for ( int i = 0 ; i < t.length ; i++ ){ // Pour les lignes
+			int nbO = 0;
+			//voir si les lignes sont rempli
+			for ( int j = 0 ; j < t.length ; j++ ){
+				if (t [i] [j] == 'O'){
+					nbO = nbO + 1;
+					a = j ;
+				}
+				if ( nbO == 2 ){
+					int b = 3-(a+j);		//fonction remplir	
+					if( estPlein( t , a , j ) ){
+						t[i][b] = 'X';			//Rempli la case avec un X 
+					}
+				}
+			}
+		}
+		for ( int i = 0 ; i < t.length ; i++ ){ // Pour les colonnes
+			int nbO = 0;
+			//voir si les colonne sont rempli
+			for ( int j = 0 ; j < t.length ; j++ ){
+				if (t [i] [j] == 'O'){
+					nbO = nbO + 1;
+					a = i ;
+				}
+				if ( nbO == 2 ){
+					int b = 3-(a+i);		//fonction remplir	
+					if( estPlein( t , a , j ) ){
+						t[i][b] = 'X';			//Rempli la case avec un X 
+					}
+				}
+			}
+		}
+		//Il nous reste a traiter les diagonal et que l'IA se souvienne des coup fait précédement 
+		return t ;
+	}
+}
